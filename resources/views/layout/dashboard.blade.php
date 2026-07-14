@@ -46,11 +46,11 @@ if ( Auth::check() ) {
                             @if ( ns()->option->get( 'ns_store_rectangle_logo' ) )
                             <img src="{{ ns()->option->get( 'ns_store_rectangle_logo' ) }}" class="w-11/12" alt="logo"/>
                             @else
-                            <h1 class="font-black text-transparent bg-clip-text bg-gradient-to-b from-blue-200 to-indigo-400 text-3xl">NexoPOS</h1>
+                            <h1 class="font-black text-transparent bg-clip-text bg-gradient-to-b from-blue-200 to-indigo-400 text-3xl">PETRON CCC</h1>
                             @endif
                         </div>
                         <ul id="aside-menu" class="mr-2">
-                            @foreach( $menus->getMenus() as $identifier => $menu )
+                            @foreach( $menus->getMenus() as $identifier => $menu )  
                                 <ns-menu identifier="{{ $identifier }}" toggled="{{ $menu[ 'toggled' ] ?? '' }}" label="{{ @$menu[ 'label' ] }}" icon="{{ @$menu[ 'icon' ] }}" href="{{ @$menu[ 'href' ] }}" notification="{{ isset( $menu[ 'notification' ] ) ? $menu[ 'notification' ] : 0 }}" id="menu-{{ $identifier }}">
                                     @if ( isset( $menu[ 'childrens' ] ) )
                                         @foreach( $menu[ 'childrens' ] as $identifier => $menu )
@@ -89,15 +89,6 @@ if ( Auth::check() ) {
 
                     @hasSection( 'layout.dashboard.with-title' )
                         @include( 'common.dashboard.with-title' )
-                    @endif
-                </div>
-                <div class="p-2 text-xs flex justify-end text-gray-500">
-                    @if( $latestVersion = ns()->option->get( 'ns_latest_version' ) )
-                    <a href="https://my.nexopos.com/redirect/latest" target="_blank" class="hover:text-blue-400 ml-2 inline-block">
-                        {{ sprintf( __( 'Download NexoPOS %s' ), $latestVersion ) }}
-                    </a>
-                    @else
-                    {!! Hook::filter( 'ns-footer-signature', sprintf( __( 'You\'re using <a tager="_blank" href="%s" class="hover:text-blue-400 mx-1 inline-block">NexoPOS %s</a>' ), 'https://my.nexopos.com/en', config( 'nexopos.version' ) ) ) !!}
                     @endif
                 </div>
             </div>
