@@ -1,37 +1,56 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PETRON CCC - BIÑAN</title>
+    <link rel="stylesheet" href="{{ asset( 'petron/css/style.css' ) }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montenegrin+Gothic+One&display=swap" rel="stylesheet">
+</head>
+<body>
 
-use App\Classes\Hook;
-use App\Classes\Output;
-use App\Events\AfterLoginFieldsEvent;
-use App\Events\BeforeLoginFieldsEvent;
-use App\Events\RenderLoginFooterEvent;
-?>
-@extends( 'layout.base' )
-
-@section( 'layout.base.body' )
-    <div id="page-container" class="h-full w-full flex items-center overflow-y-auto pb-10">
-        <div class="container mx-auto p-4 md:p-0 flex-auto items-center justify-center flex">
-            <div id="sign-in-box" class="w-full md:w-3/5 lg:w-2/5 xl:w-84">
-                <div class="flex justify-center items-center py-6">
-                    @if ( ! ns()->option->get( 'ns_store_square_logo', false ) )
-                    <a href="https://my.nexopos.com" target="_blank">
-                        <img class="w-32" src="{{ asset( 'svg/nexopos-variant-1.svg' ) }}" alt="NexoPOS">
-                    </a>
-                    @else
-                    <img src="{{ ns()->option->get( 'ns_store_square_logo' ) }}" alt="NexoPOS">
-                    @endif
-                </div>
-                <x-session-message></x-session-message>
-                {!! Output::dispatch( BeforeLoginFieldsEvent::class ) !!}
-                @include( '/common/auth/sign-in-form' )
-                {!! Output::dispatch( AfterLoginFieldsEvent::class ) !!}
+    <div class="auth">
+        <div class="hero-top">
+            <div class="logo-wrap">
+                <img src="{{ asset( 'petron/img/logo1.webp' ) }}" alt="Petron CCC logo">
             </div>
         </div>
-    </div>
-@endsection
 
-@section( 'layout.base.footer' )
-    @parent
-    {!! Output::dispatch( RenderLoginFooterEvent::class ) !!}
-    @vite([ 'resources/ts/auth.ts' ])
-@endsection
+        <form class="login" id="login" method="POST" action="{{ ns()->route( 'ns.login.post' ) }}">
+            @csrf
+            <h1>Welcome back</h1>
+
+            @if ( session( 'status' ) === 'success' )
+                <p style="color:#3ddc84; text-align:center; font-size:13px; margin:0;">{{ session( 'message' ) }}</p>
+            @endif
+
+            <input type="text" name="username" placeholder="Username" value="{{ old( 'username' ) }}" required>
+            @error( 'username' )
+                <p style="color:#E4002B; font-size:12.5px; margin:-8px 0 0;">{{ $message }}</p>
+            @enderror
+
+            <input type="password" name="password" placeholder="Password" required>
+            @error( 'password' )
+                <p style="color:#E4002B; font-size:12.5px; margin:-8px 0 0;">{{ $message }}</p>
+            @enderror
+
+            <a href="{{ ns()->route( 'ns.password-lost' ) }}" class="forgot">Forgot password</a>
+
+            <button type="submit">Login</button>
+
+            <a href="{{ ns()->route( 'ns.register' ) }}">Don't have an account?</a>
+
+            <label class="remember">
+                <span class="switch">
+                    <input type="checkbox" id="remember">
+                    <span class="slider"></span>
+                </span>
+                remember me
+            </label>
+        </form>
+    </div>
+
+</body>
+</html>

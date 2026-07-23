@@ -63,6 +63,7 @@ module.exports = {
   content: [
     './app/Crud/**/*.php',
     './resources/**/*.{vue,ts,php}',
+    './modules/**/*.blade.php',
   ],
   darkMode: 'class',
   corePlugins: {

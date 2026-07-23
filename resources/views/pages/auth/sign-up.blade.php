@@ -1,34 +1,52 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - PETRON CCC - BIÑAN</title>
+    <link rel="stylesheet" href="{{ asset( 'petron/css/style.css' ) }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montenegrin+Gothic+One&display=swap" rel="stylesheet">
+</head>
+<body>
 
-use App\Classes\Output;
-use App\Classes\Hook;
-use App\Events\RenderSignUpFooterEvent;
-?>
-
-@extends( 'layout.base' )
-
-@section( 'layout.base.body' )
-    <div id="page-container" class="h-full w-full overflow-y-auto pb-10">
-        <div class="container mx-auto p-4 md:p-0 flex-auto items-center justify-center flex">
-            <div id="sign-in-box" class="w-full md:w-3/5 lg:w-2/5">
-                <div class="flex justify-center items-center py-6">
-                    @if ( ! ns()->option->get( 'ns_store_square_logo', false ) )
-                    <a href="https://my.nexopos.com" target="_blank">
-                        <img class="w-32" src="{{ asset( 'svg/nexopos-variant-1.svg' ) }}" alt="NexoPOS">
-                    </a>
-                    @else
-                    <img src="{{ ns()->option->get( 'ns_store_square_logo' ) }}" alt="NexoPOS">
-                    @endif
-                </div>
-                <ns-register></ns-register>
+    <div class="auth">
+        <div class="hero-top">
+            <div class="logo-wrap">
+                <img src="{{ asset( 'petron/img/logo1.webp' ) }}" alt="Petron CCC logo">
             </div>
         </div>
+
+        <form class="signup" id="signup" method="POST" action="{{ ns()->route( 'ns.register.post' ) }}">
+            @csrf
+            <h1>Create account</h1>
+
+            <input type="text" name="username" placeholder="Username" value="{{ old( 'username' ) }}" required>
+            @error( 'username' )
+                <p style="color:#E4002B; font-size:12.5px; margin:-8px 0 0;">{{ $message }}</p>
+            @enderror
+
+            <input type="email" name="email" placeholder="Email" value="{{ old( 'email' ) }}" required>
+            @error( 'email' )
+                <p style="color:#E4002B; font-size:12.5px; margin:-8px 0 0;">{{ $message }}</p>
+            @enderror
+
+            <input type="password" name="password" placeholder="Password" required>
+            @error( 'password' )
+                <p style="color:#E4002B; font-size:12.5px; margin:-8px 0 0;">{{ $message }}</p>
+            @enderror
+
+            <input type="password" name="password_confirm" placeholder="Confirm Password" required>
+            @error( 'password_confirm' )
+                <p style="color:#E4002B; font-size:12.5px; margin:-8px 0 0;">{{ $message }}</p>
+            @enderror
+
+            <button type="submit">Sign Up</button>
+
+            <a href="{{ ns()->route( 'ns.login' ) }}">Already have an account?</a>
+        </form>
     </div>
-@endsection
 
-
-@section( 'layout.base.footer' )
-    @parent
-    {!! Output::dispatch( RenderSignUpFooterEvent::class ) !!}
-    @vite([ 'resources/ts/auth.ts' ])
-@endsection
+</body>
+</html>
