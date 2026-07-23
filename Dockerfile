@@ -23,5 +23,13 @@ RUN npm install && npm run build
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+RUN service mariadb start && \
+    mysql -e "CREATE DATABASE IF NOT EXISTS nexopos; CREATE USER IF NOT EXISTS 'nexo'@'localhost' IDENTIFIED BY 'nexopassword'; GRANT ALL PRIVILEGES ON nexopos.* TO 'nexo'@'localhost'; FLUSH PRIVILEGES;" && \
+    service mariadb stop
+
 EXPOSE 80
 CMD ["/usr/bin/supervisord", "-n"]
+
+RUN apt-get update && apt-get install -y \
+    software-properties-common curl gnupg2 git unzip \
+    nginx supervisor mariadb-server
