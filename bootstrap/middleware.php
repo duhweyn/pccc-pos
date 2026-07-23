@@ -3,6 +3,8 @@
 /**
  * @var \Illuminate\Foundation\Configuration\Middleware $middleware
  */
+$middleware->trustProxies(at: '*');
+
 $middleware->redirectGuestsTo( fn() => route( 'ns.login' ) );
 
 /**
