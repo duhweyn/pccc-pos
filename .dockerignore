@@ -11,4 +11,3 @@ playwright
 ts-tests
 storage/logs/*.log
 .env
-.env.example
