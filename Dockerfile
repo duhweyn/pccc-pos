@@ -11,7 +11,7 @@ RUN add-apt-repository ppa:ondrej/php -y && apt-get update && \
     php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip php8.2-gd \
     php8.2-bcmath php8.2-intl
 
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www/html
