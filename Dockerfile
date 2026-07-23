@@ -26,8 +26,9 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
 RUN touch /var/www/html/database/database.sqlite && \
-    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/.env && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database && \
+    chmod 664 /var/www/html/.env
 
 # Seed the database at build time (data resets to this state on every redeploy)
 RUN mkdir -p /run/mysqld && chown mysql:mysql /run/mysqld && \
