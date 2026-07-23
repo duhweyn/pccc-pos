@@ -17,6 +17,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /var/www/html
 COPY . .
 
+RUN cp .env.example .env
+
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
